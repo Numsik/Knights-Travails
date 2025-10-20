@@ -36,7 +36,7 @@ function buildadjlist(board){
         let neighbourds = [];
         for (let j = 0;j < 8; j++){
             let neighbourd = findnextmove(j,board[i][0],board[i][1]);
-            if (containsSpot(board, neighbor)){
+            if (containsSpot(board, neighbourd)){
                 neighbourds.push(findIndex(board, neighbourd))
             }
         }
