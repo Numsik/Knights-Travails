@@ -18,8 +18,13 @@ function findIndex(array, target){
     }
 }
 
+function containsSpot(arr,target){
+    if(arr.find(element => element[0] === target[0] && arr.find(element => element[1] === target[1]))){
+        return true;
+    }
+}
 
-function findnextmove(index, x, y){
+function findNextMove(index, x, y){
     if (index == 0) return [x+2, y+1]
     if (index == 1) return [x+1, y+2]
     if (index == 2) return [x-1, y+2]
@@ -42,23 +47,28 @@ function buildInfoArr(boardArr, startIndex) {
     return newArr;
 }
 
-function buildAdjList(board){
-    let adjlist = []
-    for (let i =0; i < board.length; i++){
-        let neighbourds = [];
-        for (let j = 0;j < 8; j++){
-            let neighbourd = findnextmove(j,board[i][0],board[i][1]);
-            if (containsSpot(board, neighbourd)){
-                neighbourds.push(findIndex(board, neighbourd))
+function buildAdjList(board) {
+    let adjList = [];
+    for (let i=0; i < board.length; i++) {
+        let neighbors = [];
+        for (let j=0; j < 8; j++) {
+            let neighbor = findNextMove(j,board[i][0],board[i][1]);
+            if (containsSpot(board, neighbor)) {
+                neighbors.push(findIndex(board, neighbor));
             }
         }
-        adjlist[i] = neighbourds;
+        adjList[i] = neighbors;
     }
-    return adjlist;
+    return adjList;
 }
 
 
 function constructPath(board, infoarr, item, index, newarr){
+    if (item.predecessor === null) return;
+    if (item.predecessor != null) {
+        newarr.push(board[index])
+        constructPath(board,infoarr[item.predecessor], item.predecessor,newarr)
+    }
 }
 
 function knightMoves(start, end){
@@ -86,7 +96,7 @@ function knightMoves(start, end){
 
             }else{
                 if(bfsinfo[vIndex].distance == null){
-                    bfsinfo[index].distance = bfsinfo[u].distance + 1;
+                    bfsinfo[vIndex].distance = bfsinfo[u].distance + 1;
                     bfsinfo[vIndex].predecessor = u;
                     queue.push(vIndex);
                 }
