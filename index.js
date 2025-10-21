@@ -19,8 +19,8 @@ function findIndex(array, target){
 }
 
 function containsSpot(arr,target){
-    if(arr.find(element => element[0] === target[0] && arr.find(element => element[1] === target[1]))){
-        return true;
+    function containsSpot(arr, target){
+    return arr.some(element => element[0] === target[0] && element[1] === target[1]);
     }
 }
 
